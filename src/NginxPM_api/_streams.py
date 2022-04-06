@@ -86,6 +86,22 @@ def streams(NginxPM, action=None):
     #------Main Processing------
     if action not in _actions:
         raise ValueError("Action not supported")
+    
+    if action == "list":
+        return stream_list()
+    elif action == "get":
+        return stream_get(id)
+    elif action == "delete":
+        return stream_delete(id)
+    elif action == "enable":
+        return stream_enable(id)
+    elif action == "disable":    
+        return stream_disable(id)
+    elif action == "create":
+        return stream_create(inc_port, fwd_host, fwd_port, tcp_fwd, udp_fwd)
+    elif action == "update":
+        return stream_update(id, inc_port, fwd_host, fwd_port, tcp_fwd, udp_fwd)
+    #------Main Processing------
 
 
 

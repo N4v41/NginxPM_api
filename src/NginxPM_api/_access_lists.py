@@ -68,3 +68,14 @@ def accesslist(NginxPM, action=None):
     #------Main Processing------
     if action not in _actions:
         raise ValueError("Action not supported")
+
+    if action == "list":
+        return accesslist_list()
+    elif action == "get":
+        return accesslist_get(id)
+    elif action == "create":
+        return accesslist_create(name, satisfy_any, pass_auth, items, clients )
+    elif action == "delete":
+        return accesslist_delete(id)
+    elif action == "update":
+        return accesslist_update(id, body)

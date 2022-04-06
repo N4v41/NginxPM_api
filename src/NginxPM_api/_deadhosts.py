@@ -95,3 +95,19 @@ def deadhosts(NginxPM, action=None):
     #------Main Processing------
     if action not in _actions:
         raise ValueError("Action not supported")
+    
+    if action == "list":
+        return deadhost_list()
+    elif action == "get":
+        return deadhost_get(id)
+    elif action == "delete":
+        return deadhost_delete(id)
+    elif action == "enable":
+        return deadhost_enable(id)
+    elif action == "disable":
+        return deadhost_disable(id)
+    elif action == "create":
+        return deadhost_create(body)
+    elif action == "update":
+        return deadhost_update(id, body)
+    #------Main Processing------

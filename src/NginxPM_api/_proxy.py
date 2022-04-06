@@ -93,3 +93,20 @@ def proxy(NginxPM, action=None):
     #------Main Processing------
     if action not in _actions:
         raise ValueError("Action not supported")
+    
+    if action == "list":
+        return proxy_list()
+    elif action == "get":
+        return proxy_get(id)
+    elif action == "update":
+        return proxy_update(id, body)
+    elif action == "create":
+        return proxy_create(body)
+    elif action == "delete":
+        return proxy_delete(id)
+    elif action == "enable":
+        return proxy_enable(id)
+    elif action == "disable":
+        return proxy_disable(id)
+    
+    #------Main Processing------

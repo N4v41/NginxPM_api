@@ -3,6 +3,9 @@ Nginx Proxy Manager python API client.
 Module for redirection host management.
 """
 
+from turtle import update
+
+
 def redirhost(NginxPM, action=None):
     """
     Execute Calls to the redirhost endpoint
@@ -113,10 +116,30 @@ def redirhost(NginxPM, action=None):
     #------Main Processing------
     if action not in _actions:
         raise ValueError("Action not supported")
-
-
-
-
-
+    
+    if action == "list":
+        return redirhost_list()
+    elif action == "get":
+        if not isinstance(id, int):
+            raise ValueError("Invalid id")
+        return redirhost_get(id)
+    elif action == "create":
+        return redirhost_create(domains, forward_scheme, forward_host, foward_http_code, preserve_path, block_exploits, cert_id, adv_config , http2_support, hsts_enabled, hsts_subdomains, ssl_forced)
+    elif action == update:
+        if not isinstance(id, int):
+            raise ValueError("Invalid id")
+        return redirhost_update(id, domains, forward_scheme, forward_host, foward_http_code, preserve_path, block_exploits, cert_id, adv_config , http2_support, hsts_enabled, hsts_subdomains, ssl_forced)
+    elif action == "delete":
+        if not isinstance(id, int):
+            raise ValueError("Invalid id")
+        return redirhost_delete(id)
+    elif action == "enable":
+        if not isinstance(id, int):
+            raise ValueError("Invalid id")
+        return redirhost_enable(id)
+    elif action == "disable":
+        if not isinstance(id, int):
+            raise ValueError("Invalid id")
+        return redirhost_disable(id)
 
 

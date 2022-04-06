@@ -77,3 +77,14 @@ def certificates(NginxPM, action=None):
 
     if action == "list":
         return certificate_list()
+    elif action == "get":
+        return certificate_get(id)
+    elif action == "create":
+        return certificate_create(domains, letsencrypt_email, cloudlare_api_key)
+    elif action == "delete":
+        return certificate_delete(id)
+    elif action == "renew":
+        return certificate_renew(id)
+    elif action == "download":
+        return certificate_download(id)
+    #------Main Processing------
