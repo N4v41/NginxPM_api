@@ -3,7 +3,7 @@ Nginx Proxy Manager python API client.
 Module for access lists management.
 """
 
-def accesslist(NginxPM, action=None):
+def accesslist(NginxPM, action=None, **kwargs):
     """
     Execute Calls to the access lists endpoint
     Suported actions:
@@ -17,6 +17,20 @@ def accesslist(NginxPM, action=None):
             - delete an access list
         - update:
             - update an access list
+    Body: 
+        {
+        "name": str(name),
+        "satisfy_any": bool(satisfy_any),
+        "pass_auth": bool(pass_auth),
+        "items":[
+            {"username":"test","password":"test"}
+            ],
+        "clients":[
+            {"address":"192.168.180.4/32","directive":"allow"},
+            {"address":"192.168.150.0/24","directive":"deny"}
+            ]
+        }
+
     """
     _actions = ("list", "get", "create", "delete", "update")
     _accesslist_url = NginxPM.url + "/api/nginx/access-lists"
@@ -46,7 +60,7 @@ def accesslist(NginxPM, action=None):
         """
         return NginxPM.session.put(_accesslist_url + str(id), json=body).json()
         
-    def accesslist_create(name, satisfy_any, pass_auth, items, clients ):
+    def accesslist_create(name, satisfy_any, pass_auth, users, clients ):
         """
         Create a new access list
         """

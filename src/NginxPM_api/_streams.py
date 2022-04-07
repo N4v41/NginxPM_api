@@ -3,7 +3,7 @@ Nginx Proxy Manager python API client.
 Module for streams management.
 """
 
-def streams(NginxPM, action=None):
+def streams(NginxPM, action=None, **kwargs):
     """
     Execute Calls to the stream endpoint
     Suported actions:

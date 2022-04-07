@@ -3,7 +3,7 @@ Nginx Proxy Manager python API client.
 Module for proxy management.
 """
 
-def proxy(NginxPM, action=None):
+def proxy(NginxPM, action=None, **kwargs):
     """
     Execute Calls to the proxy endpoint
     Suported actions:
@@ -24,6 +24,7 @@ def proxy(NginxPM, action=None):
     """
     _actions = ("list", "get", "create", "delete")
     _proxy_url = NginxPM.url + "/api/nginx/proxy-hosts"
+    _foward_scheme = ("http", "https")
     
     #------Sub Functions------
     def proxy_list():
@@ -56,38 +57,44 @@ def proxy(NginxPM, action=None):
         """
         return NginxPM.session.delete(_proxy_url + str(id)).json()
 
-    def proxy_update(id, body):
+    def proxy_update(id):
         """
         Update a proxy host by id
         """
-        return NginxPM.session.put(_proxy_url + str(id), data=body).json()
+        return NginxPM.session.put(_proxy_url + str(id), data=_body).json()
 
-    def proxy_create(body):
+    def proxy_create(domains, fwd_scheme, fwd_host, fwd_port, cache_enabled, blk_exploits, ws_upgrade, \
+        acss_list_id, cert_id, ssl_forced, http2_support, adv_config, hsts_enabled, hsts_subdomains):
         """
         Create a new proxy host
         """
-        body= {
-            "domain_names":["teste.home"],
-            "forward_scheme":"http",
-            "forward_host":"tttt",
-            "forward_port":80,
-            "caching_enabled":"true",
-            "block_exploits":"true",
-            "allow_websocket_upgrade":"true",
-            "access_list_id":"0",
-            "certificate_id":32,
-            "ssl_forced":"true",
-            "http2_support":"true",
+        _body= {
+            "domain_names":list(domains),
+            "forward_scheme":str(fwd_scheme),
+            "forward_host":str(fwd_host),
+            "forward_port":int(fwd_port),
+            "caching_enabled":bool(cache_enabled),
+            "block_exploits":bool(blk_exploits),
+            "allow_websocket_upgrade":bool(ws_upgrade),
+            "access_list_id":str(acss_list_id),
+            "certificate_id":int(cert_id),
+            "ssl_forced":bool(ssl_forced),
+            "http2_support":bool(http2_support),
             "meta":{
                 "letsencrypt_agree":"false",
                 "dns_challenge":"false"
                 },
-            "advanced_config":"",
-            "locations":[],
-            "hsts_enabled":"false",
-            "hsts_subdomains":"false"
+            "advanced_config":str(adv_config),
+            "locations":[
+                {"path":"/teste",
+                "advanced_config":"#asda",
+                "forward_scheme":"http",
+                "forward_host":"192.168.100.2",
+                "forward_port":"80"}],
+            "hsts_enabled":bool(hsts_enabled),
+            "hsts_subdomains":bool(hsts_subdomains)
             }
-        response = NginxPM.session.get(_proxy_url, data=body)
+        response = NginxPM.session.post(_proxy_url, data=_body)
         return response.json()
     #------Sub Functions------
     #------Main Processing------

@@ -3,7 +3,7 @@ Nginx Proxy Manager python API client.
 Module for 404 host (Dead Host) management.
 """
 
-def deadhosts(NginxPM, action=None):
+def deadhosts(NginxPM, action=None, **kwargs):
     """
     Execute Calls to the deadhost endpoint
     Suported actions:
@@ -11,9 +11,9 @@ def deadhosts(NginxPM, action=None):
             - list all 404 hosts
         - get:
             - get a 404 host by id
-        - enable:   (not implemented)
+        - enable:
             - enable a 404 host
-        - disable:  (not implemented)
+        - disable:
             - disable a 404 host
         - create: (not implemented)
             - create a new 404 host

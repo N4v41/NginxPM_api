@@ -3,7 +3,7 @@ Nginx Proxy Manager python API client.
 Module for certificate management.
 """
 
-def certificates(NginxPM, action=None):
+def certificates(NginxPM, action=None, **kwargs):
     """
     Execute Calls to the certificate endpoint
     Suported actions:
@@ -19,6 +19,18 @@ def certificates(NginxPM, action=None):
             - renew a certificate
         - download: (not implemented)
             - download a certificate
+    
+    Body using clodflare dns challenge:
+        {
+        "domain_names": list(domains),
+        "meta":{
+            "letsencrypt_email": str(letsencrypt_email),
+            "dns_challenge":True,
+            "dns_provider":"cloudflare",
+            "dns_provider_credentials":f"# Cloudflare API token\r\ndns_cloudflare_api_token = {cloudlare_api_key}",
+            "letsencrypt_agree":True
+            },
+        "provider":"letsencrypt"}
     """
     _actions = ("list", "get", "create", "delete")
     _certificates_url = NginxPM.url + "/api/nginx/certificates"

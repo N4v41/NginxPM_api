@@ -6,7 +6,7 @@ Module for redirection host management.
 from turtle import update
 
 
-def redirhost(NginxPM, action=None):
+def redirhost(NginxPM, action=None, **kwargs):
     """
     Execute Calls to the redirhost endpoint
     Suported actions:
@@ -93,7 +93,7 @@ def redirhost(NginxPM, action=None):
         Update a redirection host by id
         """
         _body = {
-            "domain_names": domains,
+            "domain_names": list(domains),
             "forward_scheme": str(forward_scheme),
             "forward_domain_name":str(forward_host),
             "forward_http_code":str(foward_http_code),
