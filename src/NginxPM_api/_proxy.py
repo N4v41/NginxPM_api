@@ -3,7 +3,7 @@ Nginx Proxy Manager python API client.
 Module for proxy management.
 """
 
-def proxy(NginxPM, action=None, **kwargs):
+def proxy(self, action=None):
     """
     Execute Calls to the proxy endpoint
     Suported actions:
@@ -23,7 +23,7 @@ def proxy(NginxPM, action=None, **kwargs):
             - disable a proxy
     """
     _actions = ("list", "get", "create", "delete")
-    _proxy_url = NginxPM.url + "/api/nginx/proxy-hosts"
+    _proxy_url = self.url + "/api/nginx/proxy-hosts"
     _foward_scheme = ("http", "https")
     
     #------Sub Functions------
@@ -31,37 +31,37 @@ def proxy(NginxPM, action=None, **kwargs):
         """
         List all proxies hosts
         """
-        return NginxPM.session.get(_proxy_url).json()
-    
+        return self.session.get(_proxy_url, verify=False).json()
+
     def proxy_get(id):
         """
         Get a proxy host by id
         """
-        return NginxPM.session.get(_proxy_url + str(id)).json()
+        return self.session.get(_proxy_url + str(id)).json()
     
     def proxy_enable(id):
         """
         Enable a proxy host by id
         """
-        return NginxPM.session.post(_proxy_url + str(id) + "/enable").json()
+        return self.session.post(_proxy_url + str(id) + "/enable").json()
     
     def proxy_disable(id):
         """
         Disable a proxy host by id
         """
-        return NginxPM.session.post(_proxy_url + str(id) + "/disable").json()
+        return self.session.post(_proxy_url + str(id) + "/disable").json()
     
     def proxy_delete(id):
         """
         Delete a proxy host by id
         """
-        return NginxPM.session.delete(_proxy_url + str(id)).json()
+        return self.session.delete(_proxy_url + str(id)).json()
 
     def proxy_update(id):
         """
         Update a proxy host by id
         """
-        return NginxPM.session.put(_proxy_url + str(id), data=_body).json()
+        return self.session.put(_proxy_url + str(id), data=_body).json()
 
     def proxy_create(domains, fwd_scheme, fwd_host, fwd_port, cache_enabled, blk_exploits, ws_upgrade, \
         acss_list_id, cert_id, ssl_forced, http2_support, adv_config, hsts_enabled, hsts_subdomains):
@@ -94,7 +94,7 @@ def proxy(NginxPM, action=None, **kwargs):
             "hsts_enabled":bool(hsts_enabled),
             "hsts_subdomains":bool(hsts_subdomains)
             }
-        response = NginxPM.session.post(_proxy_url, data=_body)
+        response = self.session.post(_proxy_url, data=_body)
         return response.json()
     #------Sub Functions------
     #------Main Processing------
@@ -106,9 +106,10 @@ def proxy(NginxPM, action=None, **kwargs):
     elif action == "get":
         return proxy_get(id)
     elif action == "update":
-        return proxy_update(id, body)
+        return proxy_update(id)
     elif action == "create":
-        return proxy_create(body)
+        return proxy_create(domains, fwd_scheme, fwd_host, fwd_port, cache_enabled, blk_exploits, ws_upgrade, \
+        acss_list_id, cert_id, ssl_forced, http2_support, adv_config, hsts_enabled, hsts_subdomains)
     elif action == "delete":
         return proxy_delete(id)
     elif action == "enable":
