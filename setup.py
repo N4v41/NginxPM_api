@@ -6,5 +6,5 @@ setup(name='NginxPM',
       author='N4v41',
       author_email='n4v41@naval.one',
       license='MIT',
-      packages=['NginxPM'],
+      packages=['NginxPM_api'],
       zip_safe=False)

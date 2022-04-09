@@ -3,7 +3,7 @@ Nginx Proxy Manager python API client.
 Module for access lists management.
 """
 
-def accesslist(NginxPM, action=None, **kwargs):
+def accesslist(self, action=None, **kwargs):
     """
     Execute Calls to the access lists endpoint
     Suported actions:
@@ -33,32 +33,32 @@ def accesslist(NginxPM, action=None, **kwargs):
 
     """
     _actions = ("list", "get", "create", "delete", "update")
-    _accesslist_url = NginxPM.url + "/api/nginx/access-lists"
+    _accesslist_url = self.url + "/api/nginx/access-lists"
     
     #------Sub Functions------
     def accesslist_list():
         """
         List all access lists
         """
-        return NginxPM.session.get(_accesslist_url).json()
+        return self.session.get(_accesslist_url).json()
     
     def accesslist_get(id):
         """
         Get an access list by id
         """
-        return NginxPM.session.get(_accesslist_url + str(id)).json()
+        return self.session.get(_accesslist_url + str(id)).json()
     
     def accesslist_delete(id):
         """
         Delete an access list by id
         """
-        return NginxPM.session.delete(_accesslist_url + str(id)).json()
+        return self.session.delete(_accesslist_url + str(id)).json()
     
     def accesslist_update(id, body):
         """
         Update an access list by id
         """
-        return NginxPM.session.put(_accesslist_url + str(id), json=body).json()
+        return self.session.put(_accesslist_url + str(id), json=body).json()
         
     def accesslist_create(name, satisfy_any, pass_auth, users, clients ):
         """
@@ -76,7 +76,7 @@ def accesslist(NginxPM, action=None, **kwargs):
                 {"address":"192.168.150.0/24","directive":"deny"}
                 ]
             }
-        return NginxPM.session.post(_accesslist_url, json=body).json()
+        return self.session.post(_accesslist_url, json=body).json()
     
     #------Sub Functions------
     #------Main Processing------

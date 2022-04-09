@@ -3,7 +3,7 @@ Nginx Proxy Manager python API client.
 Module for certificate management.
 """
 
-def certificates(NginxPM, action=None, **kwargs):
+def certificates(self, action=None, **kwargs):
     """
     Execute Calls to the certificate endpoint
     Suported actions:
@@ -33,32 +33,32 @@ def certificates(NginxPM, action=None, **kwargs):
         "provider":"letsencrypt"}
     """
     _actions = ("list", "get", "create", "delete")
-    _certificates_url = NginxPM.url + "/api/nginx/certificates"
+    _certificates_url = self.url + "/api/nginx/certificates"
     
     #------Sub Functions------
     def certificate_list():
         """
         List all certificates
         """
-        return NginxPM.session.get(_certificates_url).json()
+        return self.session.get(_certificates_url).json()
     
     def certificate_get(id):
         """
         Get a certificate by id
         """
-        return NginxPM.session.get(_certificates_url + str(id)).json()
+        return self.session.get(_certificates_url + str(id)).json()
     
     def certificate_delete(id):
         """
         Delete a certificate by id
         """
-        return NginxPM.session.delete(_certificates_url + str(id)).json()
+        return self.session.delete(_certificates_url + str(id)).json()
     
     def certificate_renew(id):
         """
         Renew a certificate by id
         """
-        return NginxPM.session.post(_certificates_url + str(id) + "/renew").json()
+        return self.session.post(_certificates_url + str(id) + "/renew").json()
     
     def certificate_create(domains, letsencrypt_email, cloudlare_api_key):
         """
@@ -74,13 +74,13 @@ def certificates(NginxPM, action=None, **kwargs):
                 "letsencrypt_agree":True
                 },
             "provider":"letsencrypt"}
-        return NginxPM.session.post(_certificates_url, data=body).json()
+        return self.session.post(_certificates_url, data=body).json()
     
     def certificate_download(id):
         """
         Download a certificate by id
         """
-        return NginxPM.session.get(_certificates_url + str(id) + "/download").json()
+        return self.session.get(_certificates_url + str(id) + "/download").json()
     
     #------Sub Functions------
     #------Main Processing------

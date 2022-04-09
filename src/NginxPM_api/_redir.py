@@ -6,7 +6,7 @@ Module for redirection host management.
 from turtle import update
 
 
-def redirhost(NginxPM, action=None, **kwargs):
+def redirhost(self, action=None, **kwargs):
     """
     Execute Calls to the redirhost endpoint
     Suported actions:
@@ -24,7 +24,7 @@ def redirhost(NginxPM, action=None, **kwargs):
             - delete a redirection host
     """
     _actions = ("list", "get", "create", "delete")
-    _redirhost_url = NginxPM.url + "/api/nginx/redirection-hosts"
+    _redirhost_url = self.url + "/api/nginx/redirection-hosts"
     _http_codes = [300, 301, 302, 303, 307, 308]
     _foward_schemes = ["$scheme", "http", "https"]
     
@@ -33,31 +33,31 @@ def redirhost(NginxPM, action=None, **kwargs):
         """
         List all redirection hosts
         """
-        return NginxPM.session.get(_redirhost_url).json()
+        return self.session.get(_redirhost_url).json()
     
     def redirhost_get(id):
         """
         Get an redirection host by id
         """
-        return NginxPM.session.get(_redirhost_url + str(id)).json()
+        return self.session.get(_redirhost_url + str(id)).json()
     
     def redirhost_delete(id):
         """
         Delete an redirection host by id
         """
-        return NginxPM.session.delete(_redirhost_url + str(id)).json()
+        return self.session.delete(_redirhost_url + str(id)).json()
     
     def redirhost_enable(id):
         """
         Enable an redirection host by id
         """
-        return NginxPM.session.post(_redirhost_url + str(id) + "/enable").json()
+        return self.session.post(_redirhost_url + str(id) + "/enable").json()
     
     def redirhost_disable(id):
         """
         Disable an redirection host by id
         """
-        return NginxPM.session.post(_redirhost_url + str(id) + "/disable").json()
+        return self.session.post(_redirhost_url + str(id) + "/disable").json()
     
     def redirhost_create(domains, forward_scheme, forward_host, foward_http_code, preserve_path, block_exploits, cert_id, adv_config , http2_support, hsts_enabled, hsts_subdomains, ssl_forced):
         """
@@ -86,7 +86,7 @@ def redirhost(NginxPM, action=None, **kwargs):
             "hsts_subdomains":bool(hsts_subdomains),
             "ssl_forced": bool(ssl_forced),
         }
-        return NginxPM.session.post(_redirhost_url, json=_body).json()
+        return self.session.post(_redirhost_url, json=_body).json()
     
     def redirhost_update(id, domains, forward_scheme, forward_host, foward_http_code, preserve_path, block_exploits, cert_id, adv_config , http2_support, hsts_enabled, hsts_subdomains, ssl_forced):
         """
@@ -110,7 +110,7 @@ def redirhost(NginxPM, action=None, **kwargs):
             "hsts_subdomains":bool(hsts_subdomains),
             "ssl_forced": bool(ssl_forced),
         }
-        return NginxPM.session.put(_redirhost_url + str(id), json=_body).json()
+        return self.session.put(_redirhost_url + str(id), json=_body).json()
     
     #------Sub Functions------
     #------Main Processing------

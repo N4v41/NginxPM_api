@@ -3,7 +3,7 @@ Nginx Proxy Manager python API client.
 Module for 404 host (Dead Host) management.
 """
 
-def deadhosts(NginxPM, action=None, **kwargs):
+def deadhosts(self, action=None, **kwargs):
     """
     Execute Calls to the deadhost endpoint
     Suported actions:
@@ -21,7 +21,7 @@ def deadhosts(NginxPM, action=None, **kwargs):
             - delete a 404 host
     """
     _actions = ("list", "get", "delete", "enable", "disable", "create")
-    _deadhosts_url = NginxPM.url + "/api/nginx/dead-hosts"
+    _deadhosts_url = self.url + "/api/nginx/dead-hosts"
 
     
     #------Sub Functions------
@@ -29,31 +29,31 @@ def deadhosts(NginxPM, action=None, **kwargs):
         """
         List all dead hosts
         """
-        return NginxPM.session.get(_deadhosts_url).json()
+        return self.session.get(_deadhosts_url).json()
     
     def deadhost_get(id):
         """
         Get an dead host by id
         """
-        return NginxPM.session.get(_deadhosts_url + str(id)).json()
+        return self.session.get(_deadhosts_url + str(id)).json()
     
     def deadhost_delete(id):
         """
         Delete an dead host by id
         """
-        return NginxPM.session.delete(_deadhosts_url + str(id)).json()
+        return self.session.delete(_deadhosts_url + str(id)).json()
     
     def deadhost_enable(id):
         """
         Enable an dead host by id
         """
-        return NginxPM.session.post(_deadhosts_url + str(id) + "/enable").json()
+        return self.session.post(_deadhosts_url + str(id) + "/enable").json()
     
     def deadhost_disable(id):
         """
         Disable an dead host by id
         """
-        return NginxPM.session.post(_deadhosts_url + str(id) + "/disable").json()
+        return self.session.post(_deadhosts_url + str(id) + "/disable").json()
     
     def deadhost_create(body):
         """
@@ -71,7 +71,7 @@ def deadhosts(NginxPM, action=None, **kwargs):
             "http2_support":False,
             "ssl_forced":False
         }
-        return NginxPM.session.post(_deadhosts_url, body=_body).json()
+        return self.session.post(_deadhosts_url, body=_body).json()
     
     def deadhost_update(id, body):
         """
@@ -89,7 +89,7 @@ def deadhosts(NginxPM, action=None, **kwargs):
             "http2_support":False,
             "ssl_forced":False
         }
-        return NginxPM.session.put(_deadhosts_url + str(id), body=_body ).json()
+        return self.session.put(_deadhosts_url + str(id), body=_body ).json()
     
     #------Sub Functions------
     #------Main Processing------

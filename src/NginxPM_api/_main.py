@@ -38,11 +38,50 @@ class NginxPM:
         login_url = self.url + "/api/tokens"
         body = {
             "identity": self.user,
-            "secret": self.password
+            "secret": self.passwd
             }
-        response = self.session.post(login_url, data=body)
+        response = self.session.post(login_url, data=body, verify=False)
         if response.ok:
             return (json.loads(response.text))['token']
         else:
             return print("Error: " + response.text)
+        
+    def proxy(self, action=None):
+        """
+        call the proxy module
+        """
+        return proxy(self, action)
+
+    def accesslist(self, action=None):
+        """
+        call the accesslist module
+        """
+        return accesslist(self, action)
+
+    def redirhost(self, action=None):
+        """
+        call the redirhost module
+        """
+        return redirhost(self, action)
+
+    def deadhosts(self, action=None):
+        """
+        call the deadhosts module
+        """
+        return deadhosts(self, action)
+
+    def streams(self, action=None):
+        """
+        call the streams module
+        """
+        return streams(self, action)
+
+    def certificates(self, action=None):
+        """
+        call the certificates module
+        """
+        return certificates(self, action)
+
+    def __str__(self):
+        return "NginxPM class"   
         
